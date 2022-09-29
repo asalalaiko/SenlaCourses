@@ -26,13 +26,7 @@ public class TestDataFactory{
     public static final Id PROPERTY_TYPE_OFFICE = [SELECT Id FROM RecordType WHERE Name = 'Office' LIMIT 1].Id;
     public static final Id PROPERTY_TYPE_INDUSTRIAL = [SELECT Id FROM RecordType WHERE Name = 'Industrial' LIMIT 1].Id;
     public static final Id PROPERTY_TYPE_SPACE = [SELECT Id FROM RecordType WHERE Name = 'Space' LIMIT 1].Id;
-    //Contacts
-    public static final Contact CONTACT_PROPERTY_OWNER = [SELECT Id FROM Contact WHERE RecordTypeId = :CONTACT_TYPE_PROPERTY_OWNER LIMIT 1];
-    public static final Contact CONTACT_BROKER = [SELECT Id FROM Contact WHERE RecordTypeId = :CONTACT_TYPE_BROKER LIMIT 1];
-    //Propertyes
-    public static final Property__c PROPERTY_OFFICE = [SELECT Id FROM Property__c WHERE RecordTypeId = :PROPERTY_TYPE_OFFICE LIMIT 1];
-    public static final Property__c PROPERTY_INDUSTRIAL = [SELECT Id FROM Property__c WHERE RecordTypeId = :PROPERTY_TYPE_INDUSTRIAL LIMIT 1];
-    public static final Property__c PROPERTY_SPACE = [SELECT Id FROM Property__c WHERE RecordTypeId = :PROPERTY_TYPE_SPACE LIMIT 1];
+    
 
     public static User createManagerUser(String name, String language) {
         User user = new User(LastName = name, LanguageLocaleKey = language, Username = name + '@username.com',
@@ -67,41 +61,58 @@ public class TestDataFactory{
         return contact;
     }
 
-    public static Property__c createPropertyIndustrial(String address, Decimal costSale, Decimal costRent) {
+    public static Property__c createPropertyIndustrial(Contact owner, String address, Decimal costSale, Decimal costRent) {
         Property__c property = new Property__c(RecordTypeId = PROPERTY_TYPE_INDUSTRIAL, Address__c = address, Selling_price__c = costSale,
-                                            Rent_price__c = costRent, Contact__c = CONTACT_PROPERTY_OWNER.id );
+                                            Rent_price__c = costRent, Contact__c = owner.id );
         insert property;
         return property;
     }
 
-    public static Property__c createPropertyOffice(String address, Decimal costSale, Decimal costRent) {
+    public static Property__c createPropertyOffice(Contact owner, String address, Decimal costSale, Decimal costRent) {
         Property__c property = new Property__c(RecordTypeId = PROPERTY_TYPE_OFFICE, Address__c = address, Selling_price__c = costSale,
-                                            Rent_price__c = costRent, Contact__c = CONTACT_PROPERTY_OWNER.id );
+                                            Rent_price__c = costRent, Contact__c = owner.id );
         insert property;
         return property;
     }
 
-    public static Property__c createPropertySpace(String address, Decimal costSale, Decimal costRent) {
+    public static Property__c createPropertySpace(Contact owner, String address, Decimal costSale, Decimal costRent) {
         Property__c property = new Property__c(RecordTypeId = PROPERTY_TYPE_SPACE, Address__c = address, Selling_price__c = costSale,
-                                            Rent_price__c = costRent, Contact__c = CONTACT_PROPERTY_OWNER.id );
+                                            Rent_price__c = costRent, Contact__c = owner.id );
         insert property;
         return property;
     }
 
-    public static Deal__c createDealSaleOffice() {
-        Deal__c deal = new Deal__c(RecordTypeId = DEAL_TYPE_SALE, Property__c = PROPERTY_OFFICE.id, Contact_buyer__c = CONTACT_BROKER.id,
-                                Contact__c = CONTACT_PROPERTY_OWNER.id);
+    public static Deal__c createDealSale(Contact seller, Contact buyer, Property__c property) {
+        Deal__c deal = new Deal__c(RecordTypeId = DEAL_TYPE_SALE, Property__c = property.id, Contact_buyer__c = buyer.id,
+                                Contact__c = seller.id);
         insert deal;
         return deal;
     }
 
-    public static Deal__c createDealLeaseSpace() {
+    public static Deal__c createDealLease(Contact seller, Contact buyer, Property__c property) {
         Date today = Date.today();
         Date nextWeek = today.addDays(7);         
-        Deal__c deal = new Deal__c(RecordTypeId = DEAL_TYPE_LEASE, Property__c = PROPERTY_SPACE.id, Contact_buyer__c = CONTACT_BROKER.id,
-                                Contact__c = CONTACT_PROPERTY_OWNER.id, Start_lease__c = today, Finish_lease__c = nextWeek);
+        Deal__c deal = new Deal__c(RecordTypeId = DEAL_TYPE_LEASE, Property__c = property.id, Contact_buyer__c = buyer.id,
+                                Contact__c = seller.id, Start_lease__c = today, Finish_lease__c = nextWeek);
         insert deal;
         return deal;
     }
 
+    public static Log__c createLog(String name, String message) {
+        Log__c log = new Log__c(Name = name, Message__c = message);
+        insert log;
+        return log;
+    }
+
+    public static List<Log__c> createLogs(Integer count) {
+        List<Log__c> logs = new List<Log__c>(count);
+        
+        for (Integer i = 0; i < count; i++) {
+            logs[i] = new Log__c(Name='TestLog' + i, Message__c = 'Message for TestLog' + i );
+        }
+        insert logs;
+        
+        return logs;
+    }
+    
 }

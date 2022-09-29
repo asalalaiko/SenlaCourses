@@ -1,10 +1,11 @@
 public inherited sharing class ContactManager {
 
-    private static final String DEFAULT_TYPE = 'Property Owner';
-    
+    private static final String DEFAULT_TYPE = [SELECT Id FROM RecordType WHERE Name = 'Property Owner' LIMIT 1].Id;
+    private static final Id CONTACT_TYPE_PROPERTY_OWNER = [SELECT Id FROM RecordType WHERE Name = 'Property Owner' LIMIT 1].Id;
+    private static final Id CONTACT_TYPE_BROKER = [SELECT Id FROM RecordType WHERE Name = 'Broker' LIMIT 1].Id;
 
     public class ContactWrapper {
-        public String type {get; set;}
+        public Id type {get; set;}
         public String firstName {get; set;}   
         public String lastName {get; set;}   
         public String phone {get; set;}   
@@ -13,10 +14,8 @@ public inherited sharing class ContactManager {
     }
 
     public static Contact createContact(ContactWrapper wrapper, Boolean serialize) {
-       Contact contact = new Contact();
-       contact.RecordTypeId = (String.isNotBlank(wrapper.type)) ?
-                              [SELECT Id FROM RecordType WHERE Name = :wrapper.type limit 1].Id : 
-                              [SELECT Id FROM RecordType WHERE Name = :DEFAULT_TYPE limit 1].Id;
+        Contact contact = new Contact();
+        contact.RecordTypeId = wrapper.type;
         contact.FirstName = wrapper.firstName;
         contact.LastName = wrapper.lastName;
         contact.Phone = wrapper.phone; //how convert String to Phone?
@@ -29,7 +28,7 @@ public inherited sharing class ContactManager {
     }
 
     public static Contact getContactById(Id id, String fields) {
-        return Database.query('SELECT ' + fields + ' FROM Contact WHERE Id IN :id LIMIT 1');
+        return Database.query('SELECT ' + fields + ' FROM Contact WHERE Id = :id LIMIT 1');
     }   
 
    public static List<Contact> getContactsByIds(List<Id> ids, String fields) {
@@ -37,14 +36,12 @@ public inherited sharing class ContactManager {
     }
 
     public static Contact getContactByName(String name, String fields) {
-        return Database.query('SELECT ' + fields + ' FROM Contact WHERE Name IN :name LIMIT 1');
+        return Database.query('SELECT ' + fields + ' FROM Contact WHERE Name = :name LIMIT 1');
     }   
 
     public static Contact updateContactByID(Id id, ContactWrapper wrapper, Boolean serialize) {
-       Contact contact = Database.query('SELECT Id FROM Contact WHERE Id IN :id LIMIT 1');
-       contact.RecordTypeId = (String.isNotBlank(wrapper.type)) ?
-                              [SELECT Id FROM RecordType WHERE Name = :wrapper.type limit 1].Id : 
-                              [SELECT Id FROM RecordType WHERE Name = :DEFAULT_TYPE limit 1].Id;
+       Contact contact = Database.query('SELECT Id FROM Contact WHERE Id = :id LIMIT 1');
+       contact.RecordTypeId = wrapper.type;
         contact.FirstName = wrapper.firstName;
         contact.LastName = wrapper.lastName;
         contact.Phone = wrapper.phone; //how convert String to Phone?
