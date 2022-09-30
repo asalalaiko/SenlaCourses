@@ -16,19 +16,19 @@ public inherited sharing class LogManager {
     }
 
     public static Log__c getLogById(Id id, String fields) {
-        return Database.query('SELECT ' + fields + ' FROM Log__c WHERE Id IN :id LIMIT 1');
+        return Database.query('SELECT ' + fields + ' FROM Log__c WHERE Id = :id LIMIT 1');
     }
 
     public static List<Log__c> getLogsByIds(List<Id> ids, String fields) {
         return Database.query('SELECT ' + fields + ' FROM Log__c WHERE Id IN :ids');
     }
 
-    public static Log__c getLogsByName(String name, String fields) {
-        return Database.query('SELECT ' + fields + ' FROM Log__c WHERE Name IN :name');
+    public static Log__c getLogByName(String name, String fields) {
+        return Database.query('SELECT ' + fields + ' FROM Log__c WHERE Name = :name LIMIT 1');
     }
 
     public static Log__c updateLogById(Id id, LogWrapper wrapper, Boolean serialize) {
-        Log__c log = Database.query('SELECT Id FROM Log__c WHERE Id IN :id LIMIT 1');
+        Log__c log = Database.query('SELECT Id FROM Log__c WHERE Id = :id LIMIT 1');
         log.Name = wrapper.name;
         log.Message__c = wrapper.message;
 

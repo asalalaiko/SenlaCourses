@@ -3,23 +3,20 @@ public inherited sharing class DealManager {
     private static final String DEFAULT_TYPE = 'Sale';
 
     public class DealWrapper {
-        public String type {get; set;}
-        public String property {get; set;}   
-        public String buyer {get; set;}   
-        public String seller {get; set;}   
+        public Id type {get; set;}
+        public Id property {get; set;}   
+        public Id buyer {get; set;}   
+        public Id seller {get; set;}   
     }
 
     public static Deal__c createDeal(DealWrapper wrapper, Boolean serialize) {
         
         Deal__c deal = new Deal__c();
 
-        deal.RecordTypeId = (String.isNotBlank(wrapper.type)) ?
-                               [SELECT Id FROM RecordType WHERE Name = :wrapper.type limit 1].Id : 
-                               [SELECT Id FROM RecordType WHERE Name = :DEFAULT_TYPE limit 1].Id;
-        
-        deal.Property__c = [SELECT Id FROM Property__c WHERE Name = :wrapper.seller limit 1].Id;
-        deal.Contact_buyer__c = [SELECT Id FROM Contact WHERE Name = :wrapper.buyer limit 1].Id;
-        deal.Contact__c = [SELECT Id FROM Contact WHERE Name = :wrapper.seller limit 1].Id;
+        deal.RecordTypeId = wrapper.type;
+        deal.Property__c = wrapper.property;
+        deal.Contact_buyer__c = wrapper.buyer;
+        deal.Contact__c = wrapper.seller;
         
         if (serialize) insert deal;
  
@@ -27,7 +24,7 @@ public inherited sharing class DealManager {
     }
 
     public static Deal__c getDealById(Id id, String fields) {
-        return Database.query('SELECT ' + fields + ' FROM Deal__c WHERE Id IN :id LIMIT 1');
+        return Database.query('SELECT ' + fields + ' FROM Deal__c WHERE Id = :id LIMIT 1');
     }   
 
     public static List<Deal__c> getDealsByIds(List<Id> ids, String fields) {
@@ -35,20 +32,17 @@ public inherited sharing class DealManager {
     }
 
     public static Deal__c getDealByName(String name, String fields) {
-        return Database.query('SELECT ' + fields + ' FROM Deal__c WHERE Name IN :name LIMIT 1');
+        return Database.query('SELECT ' + fields + ' FROM Deal__c WHERE Name = :name LIMIT 1');
     }
 
     public static Deal__c updateDealByID(Id id, DealWrapper wrapper, Boolean serialize) {
         
-        Deal__c deal = Database.query('SELECT Id FROM Deal__c WHERE Id IN :id LIMIT 1');
+        Deal__c deal = Database.query('SELECT Id FROM Deal__c WHERE Id = :id LIMIT 1');
 
-        deal.RecordTypeId = (String.isNotBlank(wrapper.type)) ?
-                               [SELECT Id FROM RecordType WHERE Name = :wrapper.type limit 1].Id : 
-                               [SELECT Id FROM RecordType WHERE Name = :DEFAULT_TYPE limit 1].Id;
-        
-        deal.Property__c = [SELECT Id FROM Property__c WHERE Name = :wrapper.seller limit 1].Id;
-        deal.Contact_buyer__c = [SELECT Id FROM Contact WHERE Name = :wrapper.buyer limit 1].Id;
-        deal.Contact__c = [SELECT Id FROM Contact WHERE Name = :wrapper.seller limit 1].Id;
+        deal.RecordTypeId = wrapper.type;
+        deal.Property__c = wrapper.property;
+        deal.Contact_buyer__c = wrapper.buyer;
+        deal.Contact__c = wrapper.seller;
          
         if (serialize) update deal; 
     
