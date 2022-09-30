@@ -71,6 +71,7 @@ private class PropertyManagerTest {
 
         Property__c p = new Property__c();
         p = PropertyManager.getPropertyByName('P-100010', 'id');
+        
 
         PropertyManager.PropertyWrapper propertyW = new PropertyManager.PropertyWrapper(); 
         propertyW.type = TestDataFactory.PROPERTY_TYPE_OFFICE;
