@@ -24,7 +24,7 @@ public inherited sharing class DealManager {
     }
 
     public static Deal__c getDealById(Id id, String fields) {
-        return Database.query('SELECT ' + fields + ' FROM Deal__c WHERE Id IN :id LIMIT 1');
+        return Database.query('SELECT ' + fields + ' FROM Deal__c WHERE Id = :id LIMIT 1');
     }   
 
     public static List<Deal__c> getDealsByIds(List<Id> ids, String fields) {
@@ -32,12 +32,12 @@ public inherited sharing class DealManager {
     }
 
     public static Deal__c getDealByName(String name, String fields) {
-        return Database.query('SELECT ' + fields + ' FROM Deal__c WHERE Name IN :name LIMIT 1');
+        return Database.query('SELECT ' + fields + ' FROM Deal__c WHERE Name = :name LIMIT 1');
     }
 
     public static Deal__c updateDealByID(Id id, DealWrapper wrapper, Boolean serialize) {
         
-        Deal__c deal = Database.query('SELECT Id FROM Deal__c WHERE Id IN :id LIMIT 1');
+        Deal__c deal = Database.query('SELECT Id FROM Deal__c WHERE Id = :id LIMIT 1');
 
         deal.RecordTypeId = wrapper.type;
         deal.Property__c = wrapper.property;

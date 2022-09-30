@@ -67,7 +67,7 @@ private class PropertyManagerTest {
 
     @isTest  
     static void updatePropertyByIdTest(){
-        Contact contact = TestDataFactory.createContactPropertyOwner('BigBoss2', '+375112223344', '+375112223355');
+        Contact contact = TestDataFactory.createContactPropertyOwner('BigBoss2', '+37512223344', '+375182623355');
 
         Property__c p = new Property__c();
         p = PropertyManager.getPropertyByName('P-100010', 'id');
@@ -101,7 +101,7 @@ private class PropertyManagerTest {
         PropertyManager.deletePropertyByID(p.id);
         
         List<Property__c> cPropertyes = new List<Property__c>();
-        cPropertyes = [SELECT Id FROM Property__c WHERE Name =: 'Property' LIMIT 1];
+        cPropertyes = [SELECT Id FROM Property__c WHERE Name =: 'P-100010' LIMIT 1];
         System.assertEquals(0, cPropertyes.size());
 
     }

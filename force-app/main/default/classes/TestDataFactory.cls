@@ -83,8 +83,8 @@ public class TestDataFactory{
     }
 
     public static Deal__c createDealSale(Contact seller, Contact buyer, Property__c property) {
-        Deal__c deal = new Deal__c(RecordTypeId = DEAL_TYPE_SALE, Property__c = property.id, Contact_buyer__c = buyer.id,
-                                Contact__c = seller.id);
+        Deal__c deal = new Deal__c(Contact__c = seller.id, Contact_buyer__c = buyer.id, Property__c = property.id, 
+                                RecordTypeId = DEAL_TYPE_SALE);
         insert deal;
         return deal;
     }

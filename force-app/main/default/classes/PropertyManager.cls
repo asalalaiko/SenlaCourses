@@ -49,7 +49,7 @@ public inherited sharing class PropertyManager {
         property.Address__c = wrapper.address;
         property.Selling_price__c = wrapper.sellingPrice;
         property.Rent_price__c = wrapper.reptPrice;
-        property.Contact__c = wrapper.contact;
+       // property.Contact__c = wrapper.contact;
          
         if (serialize) update property; 
     
