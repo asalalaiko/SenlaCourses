@@ -1,4 +1,4 @@
-public inherited sharing class PropertyManager {
+public class PropertyManager {
 
     private static final String DEFAULT_TYPE = 'Office';
 
