@@ -1,33 +1,30 @@
 public class DealTriggerHandler extends TriggerHandler {
-    public static final Id DEAL_TYPE_SALE = [SELECT Id FROM RecordType WHERE Name = 'Sale' LIMIT 1].Id;
+    public static final Id DEAL_TYPE_SALE_ID = [SELECT Id FROM RecordType WHERE Name = 'Sale' LIMIT 1].Id;
     public static final String DEAL_STATUS_CLOSED_WON  = 'Closed Won';
     public static final String DEAL_STATUS_CLOSED_LOST  = 'Closed Lost';
-    private List<Deal__c> deals = new List<Deal__c>();
-    private List<Deal__c> dealsToUpdate = new List<Deal__c>();
-    private Set<Id> propertyIds = new Set<Id>();
+    
+    
 
     public override void afterUpdate(){
+        List <Id> propertyIds = new List<Id>();
 
-        deals = [SELECT Id, Property__c 
-                FROM Deal__c WHERE Id IN :Trigger.New AND RecordTypeId = :DEAL_TYPE_SALE AND Status__c = :DEAL_STATUS_CLOSED_WON];
+        for(Id dealId : Trigger.newMap.keySet()) {
+            Deal__c newDeal = (Deal__c)Trigger.newMap.get(dealId);
+            if (newDeal.RecordTypeId != DealManager.DEAL_TYPE_SALE_ID || newDeal.Status__c != DEAL_STATUS_CLOSED_WON) continue;
+            
+            if (newDeal.Status__c != Trigger.oldMap.get(dealId).get(Deal__c.Status__c)) propertyIds.add(newDeal.Property__c);
+            }
         
-        for(Deal__c deal : deals){
-            propertyIds.add(deal.Property__c);            
-        } 
-
-        for(Id pId : propertyIds){
-            dealsToUpdate.add(Database.query('SELECT Id FROM Deal__c WHERE Status__c = :DEAL_STATUS_CLOSED_WON AND Property__c = :pId'));
+        if (!propertyIds.isEmpty()) {
+            List<Deal__c> dealToChange = DealManager.getNotClosedSaleDealsByProperties(propertyIds);
+            for (Deal__c dl : dealToChange) {
+                dl.Status__c = 'Closed Lost';
         }
 
-        for(Deal__c deal : dealsToUpdate){
-            deal.Status__c = DEAL_STATUS_CLOSED_LOST;
-        } 
-
-        if (dealsToUpdate.size() > 0){
-            update dealsToUpdate;
+            Database.SaveResult[] results = Database.update(dealToChange, false);
+            Utils.checkDatabaseSaveResults(results, dealToChange, 'DealTriggerHandler');
+            
         }
     }
-
-
 
 }

@@ -22,6 +22,11 @@ public class TestDataFactory{
     //Deals type
     public static final Id DEAL_TYPE_SALE = [SELECT Id FROM RecordType WHERE Name = 'Sale' LIMIT 1].Id;
     public static final Id DEAL_TYPE_LEASE = [SELECT Id FROM RecordType WHERE Name = 'Lease' LIMIT 1].Id;
+    //Deals status
+    public static final String DEAL_STATUS_CLOSED  = 'Closed';
+    public static final String DEAL_STATUS_OPEN  = 'Open';
+    public static final String DEAL_STATUS_CLOSED_WON  = 'Closed Won';
+    public static final String DEAL_STATUS_CLOSED_LOST  = 'Closed Lost';
     //Propertyes type
     public static final Id PROPERTY_TYPE_OFFICE = [SELECT Id FROM RecordType WHERE Name = 'Office' LIMIT 1].Id;
     public static final Id PROPERTY_TYPE_INDUSTRIAL = [SELECT Id FROM RecordType WHERE Name = 'Industrial' LIMIT 1].Id;
@@ -85,6 +90,35 @@ public class TestDataFactory{
     public static Deal__c createDealSale(Contact seller, Contact buyer, Property__c property) {
         Deal__c deal = new Deal__c(Contact__c = seller.id, Contact_buyer__c = buyer.id, Property__c = property.id, 
                                 RecordTypeId = DEAL_TYPE_SALE);
+        insert deal;
+        return deal;
+    }
+
+    public static Deal__c createDealOpenSale(Contact seller, Contact buyer, Property__c property) {
+        Deal__c deal = new Deal__c(Contact__c = seller.id, Contact_buyer__c = buyer.id, Property__c = property.id, 
+                                RecordTypeId = DEAL_TYPE_SALE, Status__c = DEAL_STATUS_OPEN);
+        insert deal;
+        return deal;
+    }
+
+    public static Deal__c createDealCloseSale(Contact seller, Contact buyer, Property__c property) {
+        Deal__c deal = new Deal__c(Contact__c = seller.id, Contact_buyer__c = buyer.id, Property__c = property.id, 
+                                RecordTypeId = DEAL_TYPE_SALE, Status__c = DEAL_STATUS_CLOSED);
+        insert deal;
+        return deal;
+    }
+
+    public static Deal__c createDealCloseWonSale(Contact seller, Contact buyer, Property__c property) {
+        Deal__c deal = new Deal__c(Contact__c = seller.id, Contact_buyer__c = buyer.id, Property__c = property.id, 
+                                RecordTypeId = DEAL_TYPE_SALE, Status__c = DEAL_STATUS_CLOSED_WON);
+        insert deal;
+        return deal;
+    }
+
+    
+    public static Deal__c createDealCloseLostSale(Contact seller, Contact buyer, Property__c property) {
+        Deal__c deal = new Deal__c(Contact__c = seller.id, Contact_buyer__c = buyer.id, Property__c = property.id, 
+                                RecordTypeId = DEAL_TYPE_SALE, Status__c = DEAL_STATUS_CLOSED_LOST);
         insert deal;
         return deal;
     }

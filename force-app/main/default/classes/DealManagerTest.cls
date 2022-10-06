@@ -111,4 +111,28 @@ private class DealManagerTest {
 
     }
 
+    @isTest  
+    static void getNotClosedSaleDealsByPropertiesTest(){
+        Contact seller = TestDataFactory.createContactPropertyOwner('NewOwner1', '+375112223344', '+375112223355');
+        Contact buyer = TestDataFactory.createContactBroker('NewBroker1', '+37555666777', '+37588999999');
+        Property__c property = TestDataFactory.createPropertyOffice(seller, 'Minsk', 1000.00, 10.00);
+
+        for (Integer i = 1; i < 10; i++)
+            TestDataFactory.createDealCloseSale(seller,buyer,property);
+
+        List<Id> propertyIds = new List<Id>();
+        propertyIds.add(property.Id);
+        System.assertEquals(0, DealManager.getNotClosedSaleDealsByProperties(propertyIds).size());
+
+    }
+
+    @isTest  
+    static void updateDealToCloseWonTest(){
+        Contact seller = TestDataFactory.createContactPropertyOwner('NewOwner1', '+375112223344', '+375112223355');
+        Contact buyer = TestDataFactory.createContactBroker('NewBroker1', '+37555666777', '+37588999999');
+        Property__c property = TestDataFactory.createPropertyOffice(seller, 'Minsk', 1000.00, 10.00);
+        Deal__c deal = TestDataFactory.createDealCloseSale(seller,buyer,property);
+        
+        System.assertEquals(TestDataFactory.DEAL_STATUS_CLOSED_WON, DealManager.updateDealToCloseWon(deal).Status__c);
+    }
 }

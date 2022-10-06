@@ -5,6 +5,16 @@ public inherited sharing class LogManager {
          public String message {get; set;}   
     }
 
+    public static Log__c log(String errorSource, String msg, Boolean serialize){
+        Log__c log = new Log__c();
+        log.Name = errorSource;
+        log.Message__c = msg;
+
+        if (serialize) insert log;
+        
+        return log;
+    }
+
     public static Log__c createLog(LogWrapper wrapper, Boolean serialize) {
         Log__c log = new Log__c();
         log.Name = wrapper.name;
