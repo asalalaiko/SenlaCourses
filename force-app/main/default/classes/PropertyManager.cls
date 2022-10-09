@@ -41,6 +41,29 @@ public class PropertyManager {
         return Database.query('SELECT ' + fields + ' FROM Property__c WHERE Address__c LIKE \'%'+ address +'%\' LIMIT 100');
     } 
 
+    public static City__c getCityPropetyById (Id id){
+        Id cityId = getPropertyById(id, 'City__c').City__c;
+        return CityManager.getCityById(cityId, 'Id, Name');
+    }
+
+    public static Country__c getCountryPropetyById (Id id){
+        Id cityId = getCityPropetyById(id).ID;
+        return CityManager.getCountryByCityId(cityId);
+    }
+
+    public static String getAddressPropetyById (Id id){
+        return (String)getPropertyById(id, 'Address__c').Address__c;
+    }
+
+    public static String getLatitudePropetyById (Id id){
+        return getPropertyById(id, 'Latitude__c').Latitude__c;
+    }
+
+    public static String getLongitudePropetyById (Id id){
+        return getPropertyById(id, 'Longitude__c').Longitude__c;
+    }
+
+    
     public static Property__c updatePropertyByID(Id id, PropertyWrapper wrapper, Boolean serialize) {
         
         Property__c property = Database.query('SELECT Id FROM Property__c WHERE Id = :id LIMIT 1');
@@ -49,7 +72,6 @@ public class PropertyManager {
         property.Address__c = wrapper.address;
         property.Selling_price__c = wrapper.sellingPrice;
         property.Rent_price__c = wrapper.reptPrice;
-       // property.Contact__c = wrapper.contact;
          
         if (serialize) update property; 
     
@@ -61,8 +83,6 @@ public class PropertyManager {
     }
 
     public static void deletePropertyByName(String name) {
-    
         delete [SELECT id FROM Property__c WHERE Name = :name];
-
     }
 }
