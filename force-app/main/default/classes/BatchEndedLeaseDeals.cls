@@ -1,6 +1,6 @@
-public class GetEndedLeaseDealsToPlatformEvents implements Database.Batchable<sObject>, Database.Stateful {
+public class BatchEndedLeaseDeals implements Database.Batchable<sObject> {
 
-public static final Id DEAL_TYPE_LEASE = [SELECT Id FROM RecordType WHERE Name = 'Lease' LIMIT 1].Id;
+private static final Id DEAL_TYPE_LEASE = [SELECT Id FROM RecordType WHERE Name = 'Lease' LIMIT 1].Id;
 
 
 public Database.QueryLocator start(Database.BatchableContext bc) {
@@ -14,18 +14,18 @@ public Database.QueryLocator start(Database.BatchableContext bc) {
 }
 public void execute(Database.BatchableContext bc, List<Deal__c> deals){
     List <NotifyClientRentEnding__e> eventList = new  List <NotifyClientRentEnding__e>();
-    List <Id> idC = new List<Id>();
+    List <Id> idsContact = new List<Id>();
 
     for (Deal__c deal : deals) {
-        NotifyClientRentEnding__e event = new NotifyClientRentEnding__e(DeaI__c = deal.Id, Info__c = Utils.getJSONInfoLeaseDealByDealId(deal.Id)); 
+        NotifyClientRentEnding__e event = new NotifyClientRentEnding__e(DeaI__c = deal.Id, Info__c = JSON.serialize(new InfoByBatchEndLease.Info(deal), true)); 
         eventList.add(event);
-        idC.add(deal.Contact__c);
+        idsContact.add(deal.Contact__c);
     }
 
     Database.SaveResult[] sr = EventBus.publish(eventList);
     Utils.checkDatabaseSaveResults(sr,eventList,'GetEndedLeaseDealsToPlatformEvents');
 
-    SendEmailEndedLease.sendEmails(idC);
+    SendEmailEndedLease.sendEmails(idsContact);
 
 }
 public void finish(Database.BatchableContext bc){

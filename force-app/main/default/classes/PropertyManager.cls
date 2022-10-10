@@ -41,15 +41,15 @@ public class PropertyManager {
         return Database.query('SELECT ' + fields + ' FROM Property__c WHERE Address__c LIKE \'%'+ address +'%\' LIMIT 100');
     } 
 
-    public static City__c getCityPropetyById (Id id){
-        Id cityId = getPropertyById(id, 'City__c').City__c;
-        return CityManager.getCityById(cityId, 'Id, Name');
-    }
+    // public static City__c getCityPropetyById (Id id){
+    //     Id cityId = getPropertyById(id, 'City__c').City__c;
+    //     return CityManager.getCityById(cityId, 'Id, Name');
+    // }
 
-    public static Country__c getCountryPropetyById (Id id){
-        Id cityId = getCityPropetyById(id).ID;
-        return CityManager.getCountryByCityId(cityId);
-    }
+    // public static Country__c getCountryPropetyById (Id id){
+    //     Id cityId = getCityPropetyById(id).ID;
+    //     return CityManager.getCountryByCityId(cityId);
+    // }
 
     public static String getAddressPropetyById (Id id){
         return (String)getPropertyById(id, 'Address__c').Address__c;

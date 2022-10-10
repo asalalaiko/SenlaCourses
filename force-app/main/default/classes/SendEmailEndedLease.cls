@@ -1,7 +1,7 @@
 public class SendEmailEndedLease {
-    public static final EmailTemplate EMAIL_TEMPLATE_DEFAULT = [Select id, Subject, Body From EmailTemplate Where Name = 'EndedLease - Default'];
-    public static final EmailTemplate EMAIL_TEMPLATE_ENGLISH = [Select id, Subject, Body From EmailTemplate Where Name = 'EndedLease - English'];
-    public static final EmailTemplate EMAIL_TEMPLATE_FRENCH = [Select id, Subject, Body From EmailTemplate Where Name = 'EndedLease - French'];
+    private static final EmailTemplate EMAIL_TEMPLATE_DEFAULT = [Select id, Subject, Body From EmailTemplate Where Name = 'EndedLease - Default'];
+    private static final EmailTemplate EMAIL_TEMPLATE_ENGLISH = [Select id, Subject, Body From EmailTemplate Where Name = 'EndedLease - English'];
+    private static final EmailTemplate EMAIL_TEMPLATE_FRENCH = [Select id, Subject, Body From EmailTemplate Where Name = 'EndedLease - French'];
     
     
     public static void sendEmails(List<Id> ids){
