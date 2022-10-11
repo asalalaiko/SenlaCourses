@@ -1,15 +1,29 @@
 public class BatchEndedLeaseDeals implements Database.Batchable<sObject> {
 
-private static final Id DEAL_TYPE_LEASE = [SELECT Id FROM RecordType WHERE Name = 'Lease' LIMIT 1].Id;
-
+    public static final String FIELDS = 'Id, CreatedDate'
+                                        + ', Contact__r.Id'
+                                        + ', Contact__r.FirstName'
+                                        + ', Contact__r.LastName'
+                                        + ', Contact__r.Email'
+                                        + ', Property__r.Id'
+                                        + ', Property__r.Contact__r.Id'
+                                        + ', Property__r.Contact__r.FirstName'
+                                        + ', Property__r.Contact__r.LastName'
+                                        + ', Property__r.Contact__r.Email' 
+                                        + ', Property__r.Country__c'
+                                        + ', Property__r.City__c'
+                                        + ', Property__r.Address__c'
+                                        + ', Property__r.Latitude__c' 
+                                        + ', Property__r.Longitude__c' 
+                                        + ', Start_lease__c'
+                                        + ', Finish_lease__c';
 
 public Database.QueryLocator start(Database.BatchableContext bc) {
 
     return Database.getQueryLocator(
-        'SELECT ID ' +
-        'FROM Deal__c ' +
-        'Where RecordTypeId = ' + DEAL_TYPE_LEASE + 
-        'AND Finish_lease__c = TOMORROW'
+        'SELECT ' + FIELDS + 
+        ' FROM Deal__c ' +
+        'WHERE Finish_lease__c = TOMORROW'
     );
 }
 public void execute(Database.BatchableContext bc, List<Deal__c> deals){
@@ -21,10 +35,9 @@ public void execute(Database.BatchableContext bc, List<Deal__c> deals){
         eventList.add(event);
         idsContact.add(deal.Contact__c);
     }
-
+    
     Database.SaveResult[] sr = EventBus.publish(eventList);
-    Utils.checkDatabaseSaveResults(sr,eventList,'GetEndedLeaseDealsToPlatformEvents');
-
+    Utils.checkDatabaseSaveResults(sr,eventList,'BatchEndedLeaseDeals');
     SendEmailEndedLease.sendEmails(idsContact);
 
 }

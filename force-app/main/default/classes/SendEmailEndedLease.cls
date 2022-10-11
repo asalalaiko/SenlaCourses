@@ -10,6 +10,7 @@ public class SendEmailEndedLease {
         List<Contact> contacts = ContactManager.getContactsByIds(ids, 'Id, Languages__c');
 
 
+
         for (Contact c : contacts){
             Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
 
@@ -29,10 +30,13 @@ public class SendEmailEndedLease {
             mail.setTargetObjectId(c.id);
             emailList.add(mail);
         }
-
+        
 
         if(!emailList.isEmpty()){
+            System.debug('##'+emailList);
             Messaging.sendEmail(emailList);
+            
+
         }    
     }
 

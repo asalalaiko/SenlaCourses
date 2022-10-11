@@ -132,6 +132,15 @@ public class TestDataFactory{
         return deal;
     }
 
+    public static Deal__c createDealLeaseFinishLeaseTomorrow(Contact seller, Contact buyer, Property__c property) {
+        Date today = Date.today();
+        Date tomorrow = today.addDays(1);         
+        Deal__c deal = new Deal__c(RecordTypeId = DEAL_TYPE_LEASE, Property__c = property.id, Contact_buyer__c = buyer.id,
+                                Contact__c = seller.id, Start_lease__c = today, Finish_lease__c = tomorrow);
+        insert deal;
+        return deal;
+    }
+
     public static Log__c createLog(String name, String message) {
         Log__c log = new Log__c(Name = name, Message__c = message);
         insert log;
