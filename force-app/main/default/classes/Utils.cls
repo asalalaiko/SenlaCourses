@@ -16,11 +16,8 @@ public class Utils {
         }
 
             if (String.isBlank(logMsg)) LogManager.log(errorSource, logMsg, true);
-}
+    }
 
 
-    
-     
-     
 
 }

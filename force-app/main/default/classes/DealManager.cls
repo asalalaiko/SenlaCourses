@@ -1,6 +1,6 @@
 public inherited sharing class DealManager {
     
-    private static final String DEFAULT_TYPE = 'Sale';
+    public static final String DEFAULT_TYPE = 'Sale';
     public static final Id DEAL_TYPE_SALE_ID = [SELECT Id FROM RecordType WHERE Name = 'Sale' LIMIT 1].Id;
     public static final String DEAL_STATUS_CLOSED  = 'Closed';
     public static final String DEAL_STATUS_CLOSED_WON  = 'Closed Won';

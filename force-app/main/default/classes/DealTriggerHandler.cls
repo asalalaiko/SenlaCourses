@@ -1,7 +1,7 @@
 public class DealTriggerHandler extends TriggerHandler {
-    public static final Id DEAL_TYPE_SALE_ID = [SELECT Id FROM RecordType WHERE Name = 'Sale' LIMIT 1].Id;
-    public static final String DEAL_STATUS_CLOSED_WON  = 'Closed Won';
-    public static final String DEAL_STATUS_CLOSED_LOST  = 'Closed Lost';
+    private static final Id DEAL_TYPE_SALE_ID = [SELECT Id FROM RecordType WHERE Name = 'Sale' LIMIT 1].Id;
+    private static final String DEAL_STATUS_CLOSED_WON  = 'Closed Won';
+    private static final String DEAL_STATUS_CLOSED_LOST  = 'Closed Lost';
     
     
 
