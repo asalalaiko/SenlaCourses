@@ -20,7 +20,7 @@ public class BatchEndedLeaseDealsTest {
 
 
         List<Log__c> log = [SELECT Id, Message__c FROM Log__c WHERE Name = 'BatchEndedLeaseDeals' LIMIT 1];
-        System.debug(log);
+
         System.assertEquals(0, log.size());
         
     }

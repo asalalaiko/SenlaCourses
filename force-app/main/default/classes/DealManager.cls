@@ -35,8 +35,18 @@ public inherited sharing class DealManager {
        return Database.query('SELECT ' + fields + ' FROM Deal__c WHERE Id IN :ids');
     }
 
+    public static List<Deal__c> getDealsByProperyAndTypeFromPeriod(Id propId, Date startPeriod, Date endPeriod, String recTypeName, String fields) {
+        return Database.query('SELECT ' + fields + ' FROM Deal__c WHERE Property__c = :propId AND '
+                                                                    + 'CreatedDate >= :startPeriod AND '
+                                                                    + 'CreatedDate <=  :endPeriod AND '
+                                                                    + 'RecordType.DeveloperName =: recTypeName LIMIT 200');
+     }
+ 
+
     public static Deal__c getDealByName(String name, String fields) {
         return Database.query('SELECT ' + fields + ' FROM Deal__c WHERE Name = :name LIMIT 1');
+
+
     }
 
     public static Deal__c updateDealByID(Id id, DealWrapper wrapper, Boolean serialize) {

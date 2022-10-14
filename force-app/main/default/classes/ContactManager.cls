@@ -39,6 +39,10 @@ public inherited sharing class ContactManager {
         return Database.query('SELECT ' + fields + ' FROM Contact WHERE Name = :name LIMIT 1');
     }   
 
+    public static Contact getContactByEmail(String email, String fields) {
+        return Database.query('SELECT ' + fields + ' FROM Contact WHERE Email = :email LIMIT 1');
+    } 
+
     public static Contact updateContactByID(Id id, ContactWrapper wrapper, Boolean serialize) {
        Contact contact = Database.query('SELECT Id FROM Contact WHERE Id = :id LIMIT 1');
        contact.RecordTypeId = wrapper.type;

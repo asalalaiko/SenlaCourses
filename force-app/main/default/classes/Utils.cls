@@ -1,4 +1,4 @@
-public class Utils {
+public  class Utils {
     
 
     public static void checkDatabaseSaveResults(Database.SaveResult[] saveResults, List<SObject> records, String errorSource) {
@@ -18,6 +18,13 @@ public class Utils {
             if (String.isBlank(logMsg)) LogManager.log(errorSource, logMsg, true);
     }
 
+    public static Id findRecordTypeByName(String name){
+        return Database.query('SELECT Id FROM RecordType WHERE Name = :name Limit 1').Id;
+    } 
 
+    public static RecordType findRecordTypeById(Id id){
+        return Database.query('SELECT Id, Name FROM RecordType WHERE Id = :id Limit 1');
+    }
 
+    
 }

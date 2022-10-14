@@ -5,20 +5,27 @@ public class PropertyManager {
     public class PropertyWrapper {
         public Id type {get; set;}
         public String address {get; set;}   
+        public String country {get; set;}   
+        public String city {get; set;}   
         public Decimal sellingPrice {get; set;}   
         public Decimal reptPrice {get; set;}   
-        public Id contact {get; set;}   
+        public Id contact {get; set;}
+        public String latitude {get; set;}   
+        public String longitude {get; set;}   
     }
 
     public static Property__c createProperty(PropertyWrapper wrapper, Boolean serialize) {
         
         Property__c property = new Property__c();
-
         property.RecordTypeId = wrapper.type;
+        property.Country__c = wrapper.country;
+        property.City__c = wrapper.city;
         property.Address__c = wrapper.address;
         property.Selling_price__c = wrapper.sellingPrice;
         property.Rent_price__c = wrapper.reptPrice;
         property.Contact__c = wrapper.contact;
+        if(wrapper.latitude == null) property.Latitude__c = wrapper.latitude;
+        if(wrapper.longitude == null) property.Longitude__c = wrapper.longitude; 
 
         if (serialize) insert property;
  
@@ -31,6 +38,10 @@ public class PropertyManager {
 
    public static List<Property__c> getPropertyesByIds(List<Id> ids, String fields) {
        return Database.query('SELECT ' + fields + ' FROM Property__c WHERE Id IN :ids');
+    }
+
+    public static List<Property__c> getPropertyesByOwnerId(ID id, String fields) {
+        return Database.query('SELECT ' + fields + ' FROM Property__c WHERE Contact__c = :id');
     }
 
     public static Property__c getPropertyByName(String name, String fields) {
