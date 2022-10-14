@@ -48,6 +48,10 @@ public class Wrappers {
         public String lastName {get; set;}
         public String email {get; set;}
 
+        public Client(){
+            
+        }
+
         public Client(String sfId, String firstName, String lastName, String email){
             this.sfId = sfId;
             this.firstName = firstName;
@@ -65,7 +69,9 @@ public class Wrappers {
         public String rentalPrice  {get; set;}
         public String sellingPrice  {get; set;}
         
-
+        public PropertyPostWrapper(){
+            
+        }
 
         public PropertyPostWrapper (String type, String country, String city, String address, String ownerID, String rentalPrice, String sellingPrice){
             this.type = type;
@@ -83,6 +89,10 @@ public class Wrappers {
         public String propertyId {get; set;}
         public Client newOwner {get; set;}
     
+        public PropertyPutWrapper (){
+
+        }
+
         public PropertyPutWrapper (String propertyId, Client client){
             this.propertyId = propertyId;
             this.newOwner = client;
