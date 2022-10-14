@@ -1,16 +1,121 @@
 @RestResource(urlMapping='/propery/v1/*')
 global class PropertyRestResource {
 
+
+    private static String getPropertyByOwner(Id ownerId) {
+        String fields = 'Id, Name, Country__c, City__c, Address__c, Latitude__c, Longitude__c';
+      
+        List<Property__c> properties = PropertyManager.getPropertyesByOwnerId(ownerId, fields);
+       
+        return JSON.serialize(properties, true);
+    }
+    
+    private static String getPropertyByIdForPeriod(String propertyId, String startDate, String endDate, String dealTypeName) {
+        String fields = 'Id, RecordType.DeveloperName, Transaction_amount__c' 
+                                            + ', Contact_buyer__c'
+                                            + ', Contact__r.Id'
+                                            + ', Contact__r.FirstName'
+                                            + ', Contact__r.LastName'
+                                            + ', Contact__r.Email'
+                                            + ', Property__c';
+
+        Date startPeriod = Date.valueOf(startDate);
+        Date endPeriod = Date.valueOf(endDate);
+        List<Deal__c> deals = DealManager.getDealsByProperyAndTypeFromPeriod(Id.valueOf(propertyId), startPeriod, endPeriod, dealTypeName, fields);
+
+
+        return JSON.serialize(new Wrappers.InfoDealsFromPeriodByProperty(startPeriod, endPeriod, deals), true);
+    }
+
     @HttpGet
-    global static Property__c doGet() {
+    global static void doGet() {
+
         RestRequest req = RestContext.request;
         RestResponse res = RestContext.response;
-        String accountId = req.requestURI.substring(req.requestURI.lastIndexOf('/')+1);
+        res.addHeader('Content-Type', 'application/json');
 
-        System.debug('==========='+ req.requestURI);
-        System.debug('==========='+ accountId);
-        Property__c result = [SELECT Id, Name  FROM Property__c WHERE Id = :accountId ];
-        return result;
+        String path = req.requestURI.substringAfterLast('v1/');
+        
+        if (path.contains('by_owner')) {
+            res.responseBody = Blob.valueOf(getPropertyByOwner(req.params.get('owner')));
+         
+        } else if (path.contains('report/')){
+
+            res.responseBody = Blob.valueOf(getPropertyByIdForPeriod(path.substringAfterLast('report/').substringBefore('?'),
+                                                                    req.params.get('startDate'),
+                                                                    req.params.get('endDate'),
+                                                                    req.params.get('dealType')));
+            res.statusCode = 200;
+        } else {
+            res.statusCode = 404;
+        }
+    }
+
+    @HttpPost
+    global static void createProperty() {
+        RestRequest req = RestContext.request;
+        RestResponse res = RestContext.response;
+        String path = RestContext.request.requestURI.substringAfterLast('v1/');
+        if (path.contains('add')){
+
+            Wrappers.PropertyPostWrapper wrapPost = (Wrappers.PropertyPostWrapper) JSON.deserialize(req.requestBody.toString(),
+                                                                                                    Wrappers.PropertyPostWrapper.class);
+            PropertyManager.PropertyWrapper wrap = new PropertyManager.PropertyWrapper();
+            wrap.type = Utils.findRecordTypeByName(wrapPost.type);
+            wrap.address = wrapPost.address;
+            wrap.city = wrapPost.city;
+            wrap.country = wrapPost.country;
+            wrap.contact = Id.valueOf(wrapPost.ownerID);
+            wrap.reptPrice = Decimal.valueOf(wrapPost.rentalPrice);
+            wrap.sellingPrice = Decimal.valueOf(wrapPost.sellingPrice);
+                    
+            Property__c result = PropertyManager.createProperty(wrap, true);
+            if (result.id!=null) {
+                res.responseBody = Blob.valueOf(JSON.serialize(result));
+                res.statusCode = 200;
+            } else {
+                res.statusCode = 500;}
+            }
+        }
+
+
+    @HttpPut
+    global static void updatePropertyOwner() {
+        String fieldsContact = 'Id, FirstName, LastName, Email';
+        String fieldsProperty = 'Id, Contact__c';
+
+        RestRequest req = RestContext.request;
+        RestResponse res = RestContext.response;
+
+        Wrappers.PropertyPutWrapper wrapPut = (Wrappers.PropertyPutWrapper) JSON.deserialize(req.requestBody.toString(),
+                                                                                            Wrappers.PropertyPutWrapper.class);
+
+        Property__c propForUpdate = PropertyManager.getPropertyById(Id.valueOf(wrapPut.propertyId), fieldsProperty);
+
+        Contact contactByID = ContactManager.getContactById(wrapPut.newOwner.sfId, fieldsContact);
+        Contact contactByEmail = ContactManager.getContactByEmail(Email.valueOf(wrapPut.newOwner.email), fieldsContact);
+
+        if (contactByID.Id != null ) {
+            PropertyManager.PropertyWrapper wrapper = new PropertyManager.PropertyWrapper();
+            wrapper.contact = wrapPut.newOwner.sfId;
+            
+            PropertyManager.updatePropertyByID(propForUpdate.Id, wrapper, true);
+
+        } else if (contactByEmail.Id == null ) {
+            res.responseBody = Blob.valueOf('Client not found!!');
+            res.statusCode = 200;
+        } else  {
+            PropertyManager.PropertyWrapper wrapper = new PropertyManager.PropertyWrapper();
+            wrapper.contact = contactByEmail.Id;
+
+            PropertyManager.updatePropertyByID(propForUpdate.Id, wrapper, true);
+        }
+
+        }
+       
+ 
+
     
-}
+
+    
 }

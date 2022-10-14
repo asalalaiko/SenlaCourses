@@ -33,10 +33,8 @@ public class SendEmailEndedLease {
         
 
         if(!emailList.isEmpty()){
-            System.debug('##'+emailList);
-            Messaging.sendEmail(emailList);
-            
 
+            Messaging.sendEmail(emailList);
         }    
     }
 
