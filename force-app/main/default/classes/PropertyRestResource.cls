@@ -18,9 +18,14 @@ global class PropertyRestResource {
                                             + ', Contact__r.LastName'
                                             + ', Contact__r.Email'
                                             + ', Property__c';
-
+        System.debug(propertyId);
+        System.debug(startDate);
+        System.debug(endDate);
+        System.debug(dealTypeName);
         Date startPeriod = Date.valueOf(startDate);
         Date endPeriod = Date.valueOf(endDate);
+        System.debug(startPeriod);
+        System.debug(endPeriod);
         List<Deal__c> deals = DealManager.getDealsByProperyAndTypeFromPeriod(Id.valueOf(propertyId), startPeriod, endPeriod, dealTypeName, fields);
 
 

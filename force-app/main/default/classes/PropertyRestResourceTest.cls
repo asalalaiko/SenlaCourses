@@ -28,7 +28,7 @@ public class PropertyRestResourceTest {
         req.requestUri =
             'https://senlacourses2-dev-ed.lightning.force.com/services/apexrest/propery/v1/by_owner?owner='
             + recordId;
-            req.httpMethod = 'GET';
+        req.httpMethod = 'GET';
 
         RestContext.request = req;
         RestContext.response= res;
@@ -41,5 +41,86 @@ public class PropertyRestResourceTest {
         System.assertEquals(200, res.statusCode);
     }
 
+
+    @isTest static void getPropertyReportTest() {
+        Property__c prop = [SELECT Id FROM Property__c WHERE Address__c = 'Minsk' LIMIT 1];
+        
+        RestRequest req = new RestRequest(); 
+        RestResponse res = new RestResponse();
+
+        req.requestUri = 'https://senlacourses2-dev-ed.lightning.force.com/services/apexrest/propery/v1/report/' 
+                        + prop.Id +'?startDate='
+                        +DateTime.now().format('yyyy-MM-dd')+'&endDate='
+                        +DateTime.now().format('yyyy-MM-dd')+'&dealType=Lease';
+
+        
+        req.httpMethod = 'GET';
+        
+        RestContext.request = req;
+        RestContext.response= res;
+
+        Test.startTest();
+        PropertyRestResource.doGet();
+        Test.stopTest();
+        
+        System.assert(res != null);
+        System.assertEquals(200, res.statusCode);
+    }
+
+    @isTest static void createPropertyTest() {
+        Contact owner  = [SELECT Id FROM Contact WHERE Firstname = 'FirstBigBoss' LIMIT 1];
+
+        RestRequest req = new RestRequest(); 
+        RestResponse res = new RestResponse();
+
+        Wrappers.PropertyPostWrapper wrap = new Wrappers.PropertyPostWrapper();
+        wrap.type = 'Office';
+        wrap.country = 'USA';
+        wrap.city = 'NY';
+        wrap.address = 'Cental st.';
+        wrap.ownerID = String.valueOf(owner.Id);
+        wrap.rentalPrice = '500';
+        wrap.sellingPrice = '10000';
+
+        req.requestURI = 'https://senlacourses2-dev-ed.lightning.force.com/services/apexrest/propery/v1/add';
+        req.httpMethod = 'POST';
+        req.requestBody = Blob.valueOf(JSON.serializePretty(wrap));
+
+        RestContext.request = req;
+   	    RestContext.response= res;
+        
+        Test.startTest();
+        PropertyRestResource.createProperty();
+        Test.stopTest();
+
+        System.assertEquals(200, res.statusCode);
+    }
+
+    @isTest static void updatePropertyOwnerTest() {
+        Contact owner  = [SELECT Id FROM Contact WHERE Firstname = 'FirstBigBoss' LIMIT 1];
+        Property__c prop = [SELECT Id FROM Property__c WHERE Address__c = 'Grodno' LIMIT 1];
+
+        Wrappers.PropertyPutWrapper wrap = new Wrappers.PropertyPutWrapper();
+        wrap.propertyId = prop.Id;
+        wrap.newOwner= new Wrappers.Client();
+        wrap.newOwner.sfId = owner.Id;
+        wrap.newOwner.firstName = 'David';
+        wrap.newOwner.lastName = 'Duchowny';
+        wrap.newOwner.email = 'david.du@facke.com';
+
+        RestRequest req = new RestRequest(); 
+        RestResponse res = new RestResponse();
+
+        req.requestUri = 'https://senla50-dev-ed.my.salesforce.com/services/data/v55.0/sobjects/propery/v1';
+        req.httpMethod = 'PUT';
+        req.requestBody = Blob.valueOf(JSON.serialize(wrap));
+
+        RestContext.request = req;
+   	    RestContext.response= res;
+
+           Test.startTest();
+           PropertyRestResource.updatePropertyOwner();
+           Test.stopTest();
+    }
 
 }
