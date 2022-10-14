@@ -101,24 +101,39 @@ global class PropertyRestResource {
                                                                                             Wrappers.PropertyPutWrapper.class);
 
         Property__c propForUpdate = PropertyManager.getPropertyById(Id.valueOf(wrapPut.propertyId), fieldsProperty);
-
         Contact contactByID = ContactManager.getContactById(wrapPut.newOwner.sfId, fieldsContact);
-        Contact contactByEmail = ContactManager.getContactByEmail(wrapPut.newOwner.email, fieldsContact);
+        Contact contactByEmail = new Contact();
 
+        if (ContactManager.getContactsByEmail(wrapPut.newOwner.email, fieldsContact).size() == 0){
+            
+            ContactManager.ContactWrapper contractW = new ContactManager.ContactWrapper();
+            contractW.type = ContactManager.CONTACT_TYPE_PROPERTY_OWNER;
+            contractW.firstName = wrapPut.newOwner.firstName;
+            contractW.lastName = wrapPut.newOwner.lastName;
+            contractW.email = wrapPut.newOwner.email;
+
+            contactByEmail = ContactManager.createContact(contractW, true);
+
+        } else{
+            contactByEmail = ContactManager.getContactsByEmail(wrapPut.newOwner.email, fieldsContact).get(0);
+        }       
+            
         if (contactByID.Id != null ) {
             PropertyManager.PropertyWrapper wrapper = new PropertyManager.PropertyWrapper();
             wrapper.contact = wrapPut.newOwner.sfId;
             
             PropertyManager.updatePropertyByID(propForUpdate.Id, wrapper, true);
+            res.statusCode = 200;
 
         } else if (contactByEmail.Id == null ) {
             res.responseBody = Blob.valueOf('Client not found!!');
-            res.statusCode = 200;
+            res.statusCode = 401;
         } else  {
             PropertyManager.PropertyWrapper wrapper = new PropertyManager.PropertyWrapper();
             wrapper.contact = contactByEmail.Id;
 
             PropertyManager.updatePropertyByID(propForUpdate.Id, wrapper, true);
+            res.statusCode = 200;
         }
 
         }

@@ -1,8 +1,8 @@
 public inherited sharing class ContactManager {
 
-    private static final String DEFAULT_TYPE = [SELECT Id FROM RecordType WHERE Name = 'Property Owner' LIMIT 1].Id;
-    private static final Id CONTACT_TYPE_PROPERTY_OWNER = [SELECT Id FROM RecordType WHERE Name = 'Property Owner' LIMIT 1].Id;
-    private static final Id CONTACT_TYPE_BROKER = [SELECT Id FROM RecordType WHERE Name = 'Broker' LIMIT 1].Id;
+    public static final String DEFAULT_TYPE = [SELECT Id FROM RecordType WHERE Name = 'Property Owner' LIMIT 1].Id;
+    public static final Id CONTACT_TYPE_PROPERTY_OWNER = [SELECT Id FROM RecordType WHERE Name = 'Property Owner' LIMIT 1].Id;
+    public static final Id CONTACT_TYPE_BROKER = [SELECT Id FROM RecordType WHERE Name = 'Broker' LIMIT 1].Id;
 
     public class ContactWrapper {
         public Id type {get; set;}
@@ -18,7 +18,7 @@ public inherited sharing class ContactManager {
         contact.RecordTypeId = wrapper.type;
         contact.FirstName = wrapper.firstName;
         contact.LastName = wrapper.lastName;
-        contact.Phone = wrapper.phone; //how convert String to Phone?
+        contact.Phone = wrapper.phone; 
         contact.HomePhone = wrapper.homePhone;
         contact.Email = wrapper.email;
 
@@ -39,7 +39,7 @@ public inherited sharing class ContactManager {
         return Database.query('SELECT ' + fields + ' FROM Contact WHERE Name = :name LIMIT 1');
     }   
 
-    public static Contact getContactByEmail(String email, String fields) {
+    public static List<Contact> getContactsByEmail(String email, String fields) {
         return Database.query('SELECT ' + fields + ' FROM Contact WHERE Email = :email LIMIT 1');
     } 
 

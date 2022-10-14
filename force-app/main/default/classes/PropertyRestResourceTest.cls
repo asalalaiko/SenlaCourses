@@ -121,6 +121,8 @@ public class PropertyRestResourceTest {
            Test.startTest();
            PropertyRestResource.updatePropertyOwner();
            Test.stopTest();
+
+           System.assertEquals(200, res.statusCode);
     }
 
 }
