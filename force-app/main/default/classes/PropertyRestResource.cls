@@ -38,7 +38,8 @@ global class PropertyRestResource {
         
         if (path.contains('by_owner')) {
             res.responseBody = Blob.valueOf(getPropertyByOwner(req.params.get('owner')));
-         
+            res.statusCode = 200;
+            
         } else if (path.contains('report/')){
 
             res.responseBody = Blob.valueOf(getPropertyByIdForPeriod(path.substringAfterLast('report/').substringBefore('?'),
@@ -46,9 +47,13 @@ global class PropertyRestResource {
                                                                     req.params.get('endDate'),
                                                                     req.params.get('dealType')));
             res.statusCode = 200;
+            
         } else {
             res.statusCode = 404;
+           
+
         }
+
     }
 
     @HttpPost
@@ -93,7 +98,7 @@ global class PropertyRestResource {
         Property__c propForUpdate = PropertyManager.getPropertyById(Id.valueOf(wrapPut.propertyId), fieldsProperty);
 
         Contact contactByID = ContactManager.getContactById(wrapPut.newOwner.sfId, fieldsContact);
-        Contact contactByEmail = ContactManager.getContactByEmail(Email.valueOf(wrapPut.newOwner.email), fieldsContact);
+        Contact contactByEmail = ContactManager.getContactByEmail(wrapPut.newOwner.email, fieldsContact);
 
         if (contactByID.Id != null ) {
             PropertyManager.PropertyWrapper wrapper = new PropertyManager.PropertyWrapper();
