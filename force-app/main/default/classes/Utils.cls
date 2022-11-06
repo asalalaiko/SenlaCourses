@@ -26,5 +26,10 @@ public  class Utils {
         return Database.query('SELECT Id, Name FROM RecordType WHERE Id = :id Limit 1');
     }
 
+    public static String getRecordTypeNameById(String objectName, Id strRecordTypeId)
+    {
+        return Schema.getGlobalDescribe().get(objectName).getDescribe().getRecordTypeInfosById().get(strRecordTypeId).getName();
+    }
+
     
 }
