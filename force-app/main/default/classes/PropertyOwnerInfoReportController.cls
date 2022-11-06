@@ -25,11 +25,6 @@ public class PropertyOwnerInfoReportController {
         totalPrice = 0.0;
     }
 
-    public List<Deal__c> getDeals() {
-        Id idOwner = ApexPages.currentPage().getParameters().get('id');
-        return  DealManager.getClosedWonDealsByOwner(idOwner);
-    }
-
     public List<PropertyInfo> getPropertyInfo() {
         Id idOwner = ApexPages.currentPage().getParameters().get('id');
         deals = DealManager.getClosedWonDealsByOwner(idOwner);
@@ -51,9 +46,6 @@ public class PropertyOwnerInfoReportController {
                 }
             }
             if (!find) {
-                
-                System.debug('========'+ totalPrice);
-                System.debug('========'+ deal.Total_Cost__c);
                 totalPrice += deal.Total_Cost__c;
                 prInfo.add(new PropertyInfo(typeProperty, 1, deal.Transaction_amount__c, deal.Total_Cost__c));
             }
