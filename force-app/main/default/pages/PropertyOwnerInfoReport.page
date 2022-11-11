@@ -4,36 +4,40 @@
                     text-align: center;
                     font-size: 12px;
                     padding: 25px;
-                    }
-        .panelStyle{font-size: 10px;}
+                    vertical-align: middle;
+                    border: 1px solid black;
+                    line-height: 24px;}
+        .panelStyle{font-size: 12px!important;}
+        .paragrafStyle{text-align:center !important; 
+                        font-size: 16px !important; 
+                        font-weight: bold !important;}
+        .boldtextStyle{font-weight:bold}
     </style>
 
 
-        <apex:pageBlock >
-            <apex:pageBlockSection >
-                <apex:panelGroup >
-                    <div style="text-align:center;font-size: 16px; font-weight: bold">
-                    <apex:outputText value="Property Owner Info Report"/>
-                    </div>
-                </apex:panelGroup>
+    <apex:pageBlock >
+        <apex:pageBlockSection >
+            <apex:panelGroup>
+                <apex:outputText styleClass="paragrafStyle" value="Property Owner Info Report"/>
+            </apex:panelGroup>
                 
-                <apex:panelGroup styleClass="panelStyle">
-                    <apex:outputText style="font-weight:bold" value="Property Owner Name: "/>
-                    <apex:outputText value="{!propertyOwnerName}"/> 
-                </apex:panelGroup>
-                <apex:panelGroup styleClass="panelStyle">
-                    <apex:outputText style="font-weight:bold" value="Total Properties Prices($): "/>
-                    <apex:outputText value="{!totalPrice}"/> 
-                </apex:panelGroup>
-            </apex:pageBlockSection>
+            <apex:panelGroup styleClass="panelStyle">
+                <apex:outputText styleClass="boldtextStyle" value="Property Owner Name: "/>
+                <apex:outputText value="{!propertyOwnerName}"/> 
+            </apex:panelGroup>
+            <apex:panelGroup styleClass="panelStyle">
+                <apex:outputText styleClass="boldtextStyle" value="Total Properties Prices($): "/>
+                <apex:outputText value="{!totalPrice}"/> 
+            </apex:panelGroup>
+        </apex:pageBlockSection>
             
-            <apex:pageBlockTable styleClass="tableStyle" value="{! PropertyInfo }" var="pi">
-                <apex:column headerValue="Property Type" value="{! pi.type }"/>
-                <apex:column headerValue="Amount" value="{! pi.amount }"/>
-                <apex:column headerValue="SumTransaction" value="{! pi.sumTransaction }"/>
-                <apex:column headerValue="Total" value="{! pi.sumTotal }"/>            
-            </apex:pageBlockTable>
+        <apex:pageBlockTable styleClass="tableStyle" value="{! PropertyInfo }" var="property">
+            <apex:column headerValue="Property Type" value="{!property.type }"/>
+            <apex:column headerValue="Amount" value="{!property.amount }"/>
+            <apex:column headerValue="SumTransaction" value="{!property.sumTransaction }"/>
+            <apex:column headerValue="Total" value="{!property.sumTotal }"/>            
+        </apex:pageBlockTable>
 
-            <apex:image url="{!$Resource.StampTested}" width="70" height="50" style="float:right;"/>
-        </apex:pageBlock>
+        <apex:image url="{!$Resource.StampTested}" width="70" height="50" style="float:right;"/>
+    </apex:pageBlock>
 </apex:page>

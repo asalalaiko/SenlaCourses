@@ -15,8 +15,6 @@ public class PropertyOwnerInfoReportController {
         }
     }
 
-    public List<Deal__c> deals; 
-    public List<PropertyInfo> prInfo; 
     public String propertyOwnerName{get;set;}
     public Decimal totalPrice{get;set;}
 
@@ -27,29 +25,33 @@ public class PropertyOwnerInfoReportController {
 
     public List<PropertyInfo> getPropertyInfo() {
         Id idOwner = ApexPages.currentPage().getParameters().get('id');
-        deals = DealManager.getClosedWonDealsByOwner(idOwner);
-        prInfo = new List<PropertyInfo>();
-        Boolean find;
+        List<Deal__c> deals = DealManager.getClosedWonDealsByOwner(idOwner);
+        List<PropertyInfo> listPropertyInfo = new List<PropertyInfo>();
+        Boolean isFind;
         String typeProperty;
 
         for (Deal__c deal : deals) {
-            find = false;
-            typeProperty = Utils.findRecordTypeById(deal.Property__r.RecordTypeId).Name;
-
-            for (PropertyInfo pr : prInfo) {
-                if (typeProperty == pr.type) {
-                    pr.amount += 1;
-                    pr.sumTransaction += deal.Transaction_amount__c;
-                    pr.sumTotal += deal.Total_Cost__c;
+            isFind = false;
+            typeProperty = Utils.getRecordTypeNameById('Property__c', deal.Property__r.RecordTypeId);
+            for (PropertyInfo propertyInfo : listPropertyInfo) {
+                if (typeProperty == propertyInfo.type) {
+                    propertyInfo = addDealToPropertyInfo(deal, propertyInfo);
                     totalPrice += deal.Total_Cost__c;
-                    find = true;
+                    isFind = true;
                 }
             }
-            if (!find) {
+            if (!isFind) {
                 totalPrice += deal.Total_Cost__c;
-                prInfo.add(new PropertyInfo(typeProperty, 1, deal.Transaction_amount__c, deal.Total_Cost__c));
+                listPropertyInfo.add(new PropertyInfo(typeProperty, 1, deal.Transaction_amount__c, deal.Total_Cost__c));
             }
         }
-        return prInfo;
+        return listPropertyInfo;
+    }
+
+    PropertyInfo addDealToPropertyInfo(Deal__c deal, PropertyInfo propertyInfo){
+        propertyInfo.amount ++;
+        propertyInfo.sumTransaction += deal.Transaction_amount__c;
+        propertyInfo.sumTotal += deal.Total_Cost__c;
+        return propertyInfo;
     }
 }
