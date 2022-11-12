@@ -1,6 +1,7 @@
 <!-- sldsValidatorIgnore -->
 <template>
     <lightning-card  title={label.labelName} >
+        <form>
         <div class="slds-grid slds-gutters">
             <lightning-card>
                 <div class="slds-col">
@@ -26,17 +27,24 @@
             </lightning-card>
             <lightning-card>
                 <div class="slds-col">
-                    <lightning-input type="checkbox" label="Male" > </lightning-input>
+                    <lightning-input type="checkbox" label="Male" disabled={isDisabledCheckboxMale} onchange={changeMale}> </lightning-input>
                 </div>
             </lightning-card>
             <lightning-card>
                 <div class="slds-col">
-                    <lightning-input type="checkbox" label="Female" > </lightning-input>
+                    <lightning-input type="checkbox" label="Female" disabled={isDisabledCheckboxFemale} onchange={changeFemale}> </lightning-input>
                 </div>
             </lightning-card>
             <lightning-card>
                 <div class="slds-col">
-                    <lightning-input type="text" label="Email" onchange={handleSearchEmail}></lightning-input>
+                    <lightning-input type="text" label="Email" onchange={handleSearchEmail} pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" message-when-pattern-mismatch="Your entry does not match the e-mail."></lightning-input>
+                </div>
+            </lightning-card>
+        </div>
+        <div class="slds-grid slds-gutters">
+            <lightning-card>
+                <div class="slds-col">
+                    <lightning-button label="Reset ALL" title="Reset all parametrs" onclick={resetAll} class="slds-m-left_x-small"></lightning-button>
                 </div>
             </lightning-card>
         </div>
@@ -50,6 +58,6 @@
                 onsort={changeForSort}
                 hide-checkbox-column
         ></lightning-datatable>
-   
+    </form>
     </lightning-card>
 </template>
