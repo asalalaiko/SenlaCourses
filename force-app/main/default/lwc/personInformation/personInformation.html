@@ -1,0 +1,55 @@
+<!-- sldsValidatorIgnore -->
+<template>
+    <lightning-card  title={label.labelName} >
+        <div class="slds-grid slds-gutters">
+            <lightning-card>
+                <div class="slds-col">
+                    <lightning-combobox
+                        name="progress"
+                        label="Sort By"
+                        value=""
+                        placeholder="Select Progress"
+                        options={options}
+                        onchange={changeForSort}
+                    ></lightning-combobox> 
+                </div>
+            </lightning-card>
+            <lightning-card>
+                <div class="slds-col">
+                    <lightning-input type="date" name="dateFrom" label="From" onchange={changeDateFrom} ></lightning-input>
+                </div>
+            </lightning-card>
+            <lightning-card>
+                <div class="slds-col">
+                    <lightning-input type="date" name="dateTo" label="To" ></lightning-input>
+                </div>
+            </lightning-card>
+            <lightning-card>
+                <div class="slds-col">
+                    <lightning-input type="checkbox" label="Male" > </lightning-input>
+                </div>
+            </lightning-card>
+            <lightning-card>
+                <div class="slds-col">
+                    <lightning-input type="checkbox" label="Female" > </lightning-input>
+                </div>
+            </lightning-card>
+            <lightning-card>
+                <div class="slds-col">
+                    <lightning-input type="text" label="Email" onchange={handleSearchEmail}></lightning-input>
+                </div>
+            </lightning-card>
+        </div>
+        <lightning-datatable
+                key-field="id"
+                data={data}
+                columns={columns}
+                default-sort-direction={defaultSortDirection}
+                sorted-direction={sortDirection}
+                sorted-by={sortedBy}
+                onsort={changeForSort}
+                hide-checkbox-column
+        ></lightning-datatable>
+   
+    </lightning-card>
+</template>
