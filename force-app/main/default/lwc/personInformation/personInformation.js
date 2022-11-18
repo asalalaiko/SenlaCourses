@@ -160,10 +160,12 @@ export default class PersonInformation extends LightningElement {
 
     resetAll(){
         this.searchKeyEmail='';
-        this.template.querySelector('form').reset();
         this.dateFrom='';
         this.dateTo='';
         this.gender='';
+
+        this.template.querySelector('form').reset();
+        
         this.toFilter();
     }
 }
