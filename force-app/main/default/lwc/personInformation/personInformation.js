@@ -12,11 +12,10 @@ const columns = [
 
 export default class PersonInformation extends LightningElement {
     @track data =[];
-    @track searchKeyEmail;
-    @track dateFrom;
-    @track dateTo;
-    @track gender;
-
+    searchKeyEmail;
+    dateFrom;
+    dateTo;
+    gender;
     label = {labelName};
     columns = columns;
     defaultSortDirection = 'asc';
@@ -113,14 +112,14 @@ export default class PersonInformation extends LightningElement {
 
     changeDateFrom(event){
         this.dateFrom = event.target.value;
-        if (this.dateTo && this.isCheckPeriod(this.dateFrom, this.dateTo)) {
+        if (this.isCheckPeriod(this.dateFrom, this.dateTo)) {
             this.toFilter();
         }
     }
 
     changeDateTo(event){
         this.dateTo = event.target.value;
-        if (this.dateFrom && this.isCheckPeriod(this.dateFrom, this.dateTo)) {
+        if (this.isCheckPeriod(this.dateFrom, this.dateTo)) {
             this.toFilter();
         }
     }
@@ -150,7 +149,7 @@ export default class PersonInformation extends LightningElement {
     }
 
     isCheckPeriod(from, to){
-        if(to<from){
+        if(to<from && to!=''){
             alert('Error to date');
             return false;
         } else {
@@ -163,7 +162,8 @@ export default class PersonInformation extends LightningElement {
         this.dateFrom='';
         this.dateTo='';
         this.gender='';
-
+        this.isDisabledCheckboxFemale = false;
+        this.isDisabledCheckboxMale = false;
         this.template.querySelector('form').reset();
         
         this.toFilter();
