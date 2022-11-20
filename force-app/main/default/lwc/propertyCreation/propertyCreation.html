@@ -5,7 +5,7 @@
             <lightning-button class="slds-m-right_x-small" variant="brand-outline" label="Next" onclick={submitRecordType}></lightning-button>
         </template>
         <template if:true={isChoseRecordType}>
-            
+            <c-forms-from-propertyes record-type-id={recordTypeId} onrecordcreation={handleRecordCreation}></c-forms-from-propertyes>
         </template>
     </lightning-card>
 </template>
