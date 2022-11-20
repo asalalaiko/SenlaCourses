@@ -1,8 +1,4 @@
 import { LightningElement, api, track } from 'lwc';
-import PROPERTY_OBJECT from '@salesforce/schema/Property__c';
-import FIELD_ADDRESS from '@salesforce/schema/Property__c.Address__c';
-import FIELD_SELLING_PRICE from '@salesforce/schema/Property__c.Selling_price__c';
-import FIELD_RENT_PRICE from '@salesforce/schema/Property__c.Rent_price__c'
 
 
 export default class FieldsFromPropertyes extends LightningElement {
@@ -47,12 +43,13 @@ export default class FieldsFromPropertyes extends LightningElement {
         this.template.querySelectorAll('lightning-input-field').forEach(element => {
             isValidity = isValidity && element.reportValidity();
         });
+        
         if (isValidity) {
             try {
-                this.template.querySelectorAll('lightning-record-edit-form').forEach(element => {
+                this.template.querySelectorAll('lightning-record-edit-form-create').forEach(element => {
                     element.submit();
                 });
-
+                console.log('---------->'+ element);
                 this.displaySuccess();
                 this.handleCancel();
             } catch(error) {
