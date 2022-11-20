@@ -1,0 +1,11 @@
+<template>
+    <lightning-card title="Property Creation" icon-name="standard:household">
+        <template if:false={isChoseRecordType}>
+            <c-get-record-type object-name-to-get-record-types={objectName} onrecordtypes={getRecordTypes}></c-get-record-type>
+            <lightning-button class="slds-m-right_x-small" variant="brand-outline" label="Next" onclick={submitRecordType}></lightning-button>
+        </template>
+        <template if:true={isChoseRecordType}>
+            <c-forms-from-propertyes record-type-id={recordTypeId} onrecordcreation={handleRecordCreation}></c-forms-from-propertyes>
+        </template>
+    </lightning-card>
+</template>
