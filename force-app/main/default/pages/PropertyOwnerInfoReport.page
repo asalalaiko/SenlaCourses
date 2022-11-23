@@ -20,14 +20,13 @@
             <apex:panelGroup>
                 <apex:outputText styleClass="paragrafStyle" value="Property Owner Info Report"/>
             </apex:panelGroup>
-                
+        </apex:pageBlockSection >
+        <apex:pageBlockSection >
             <apex:panelGroup styleClass="panelStyle">
                 <apex:outputText styleClass="boldtextStyle" value="Property Owner Name: "/>
-                <apex:outputText value="{!propertyOwnerName}"/> 
-            </apex:panelGroup>
-            <apex:panelGroup styleClass="panelStyle">
+                <apex:outputText value="{!propertyOwnerName}"/> <br/>
                 <apex:outputText styleClass="boldtextStyle" value="Total Properties Prices($): "/>
-                <apex:outputText value="{!totalPrice}"/> 
+                <apex:outputText value="{!totalPrice}"/> <br/>
             </apex:panelGroup>
         </apex:pageBlockSection>
             
