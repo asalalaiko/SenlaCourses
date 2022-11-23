@@ -1,0 +1,16 @@
+<!-- sldsValidatorIgnore -->
+<template>
+    <lightning-card title="LogLWC information">
+        <template if:true={logs.data}>
+            <lightning-datatable
+                key-field="Id"
+                data={logs.data}
+                columns={columns}
+                hide-checkbox-column
+                default-sort-direction={defaultSortDirection}
+           
+            >
+           </lightning-datatable>
+        </template>
+    </lightning-card>
+</template>
