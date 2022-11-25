@@ -1,17 +1,11 @@
 <template>
     <lightning-card title="Property List" icon-name="standard:household">
-        quantityProperty - {quantityProperty} </br>
-        numberPage - {numberPage} </br>
-        
-        1112</br>
-
-
-
         <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
             <lightning-layout multiple-rows>
                 <template for:each={viewData} for:item="item">
                         
-                        <c-property-item key={item.Id} property-name={item.Name} 
+                        <c-property-item key={item.Id} property-id={item.Id} 
+                                                    property-name={item.Name}
                                                     property-price={item.Selling_price__c}
                                                     property-image={item.imageURL__c}></c-property-item>
                 </template>
