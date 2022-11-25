@@ -1,0 +1,7 @@
+<template>
+    <lightning-card>
+        <lightning-button label="Previous" title="Previous page" onclick={previousPage} disabled={isPreviousButtonDisabled} class="slds-m-left_x-small"></lightning-button>
+        {numberPage} of {quantityPages} 
+        <lightning-button label="Next" title="Next page" onclick={nextPage} disabled={isNextButtonDisabled} class="slds-m-left_x-small"></lightning-button>
+    </lightning-card>
+</template>

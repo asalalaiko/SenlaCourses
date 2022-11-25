@@ -1,5 +1,8 @@
 import { NavigationMixin } from 'lightning/navigation';
 
+import PROPERTY_NAME from '@salesforce/schema/Property__c.Name';
+import PROPERTY_SELLING_PRICE from '@salesforce/schema/Property__c.Selling_price__c';
+import PROPERTY_IMAGE_URL from '@salesforce/schema/Property__c.imageURL__c';
 import PROPERTY_OWNER from '@salesforce/schema/Property__c.Contact__c';
 import PROPERTY_OWNER_ID from '@salesforce/schema/Property__c.Contact__r.Id';
 import PROPERTY_OWNER_FIRST_NAME from '@salesforce/schema/Property__c.Contact__r.FirstName';
@@ -10,6 +13,7 @@ import PROPERTY_OWNER_EMAIL from '@salesforce/schema/Property__c.Contact__r.Emai
 import PROPERTY_OWNER_TOTAL_PROPERTY_PRICE from '@salesforce/schema/Property__c.Contact__r.Total_Property_Price__c';
 
 import CONTACT_OBJECT from '@salesforce/schema/Contact';
+import PROPERTY_OBJECT from '@salesforce/schema/Property__c';
 
 const STANDART_RECORD_PAGE_TYPE = 'standard__recordPage';
 
@@ -38,6 +42,9 @@ const navigateTo = (page, type, recordId, objectApiName, actionName) => {
 
 
 export{
+    PROPERTY_NAME,
+    PROPERTY_SELLING_PRICE,
+    PROPERTY_IMAGE_URL,
     PROPERTY_OWNER,
     PROPERTY_OWNER_ID,
     PROPERTY_OWNER_FIRST_NAME,
