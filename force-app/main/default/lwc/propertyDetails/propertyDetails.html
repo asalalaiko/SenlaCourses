@@ -1,0 +1,29 @@
+<template>
+    <template if:true={recordId}>
+        <lightning-card>
+            <div class="custom-box slds-box slds-p-around_medium slds-text-align_center">
+                <div class="slds-text-align_center ">
+                    {name}
+                </div>
+                <img class="fit"
+                    src={image}
+                    alt={propertyName}>
+                    <div class="slds-text-align_left">
+                        Selling price: {sellingPrice}
+                    </div>
+                    <div class="slds-text-align_left">
+                        Rent price: {rentPrice}
+                    </div>
+                    <div class="slds-text-align_left">
+                        Country: {country}
+                    </div>
+                    <div class="slds-text-align_left">
+                        City: {city}
+                    </div>
+                    <div class="slds-text-align_left">
+                        Address: {address}
+                    </div>
+            </div>
+        </lightning-card>
+    </template>
+</template>
