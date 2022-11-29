@@ -31,5 +31,10 @@ public  class Utils {
         return Schema.getGlobalDescribe().get(objectName).getDescribe().getRecordTypeInfosById().get(strRecordTypeId).getName();
     }
 
+    public static List<SObject> getRecordsByFielsFromObject(String objectName, String fields)
+    {
+        return Database.query('SELECT ' + fields + ' FROM ' +objectName);
+    }
+
     
 }
