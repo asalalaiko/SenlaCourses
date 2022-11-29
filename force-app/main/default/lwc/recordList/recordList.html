@@ -1,0 +1,18 @@
+<template>
+    <lightning-card icon-name="standard:household">
+        <h1 slot="title">{objectLabel} list</h1>
+        <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
+            <lightning-layout multiple-rows>
+                <template for:each={viewData} for:item="item">
+                        
+                        <c-record-item key={item.Id} object-name={objectApiName}
+                                                    record-id={item.Id} 
+                                                    field-one={firstField}
+                                                    field-two={secondField}
+                                                    field-three={thirdField}></c-record-item>
+                </template>
+            </lightning-layout>
+        </div>
+        <c-paginator number-page={numberPage} quantity-pages={quantityPages} onpage={changePage}></c-paginator>
+    </lightning-card>
+</template>
