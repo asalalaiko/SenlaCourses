@@ -1,5 +1,11 @@
 <template>
     <lightning-card title="Property List" icon-name="standard:household">
+        <template if:true={error}>
+            <c-error-handler error={error}></c-error-handler>
+        </template>
+        <template if:true={isLoading}>
+            <c-spinner></c-spinner>
+        </template>
         <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
             <lightning-layout multiple-rows>
                 <template for:each={viewData} for:item="item">

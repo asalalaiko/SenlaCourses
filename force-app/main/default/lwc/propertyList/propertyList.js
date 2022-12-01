@@ -14,6 +14,8 @@ export default class PropertyList extends LightningElement {
   numberPage=1;
   data=[];
   viewData=[];
+  isLoading = true;
+  error = null;
   
   @wire(propertyes, { fields: fields.join(", ")})
     propertyList({ error, data }) {
@@ -22,14 +24,15 @@ export default class PropertyList extends LightningElement {
         this.quantityPages=Math.ceil(data.length/pageSize);
         this.data=data;
         this.viewData = this.paginate(this.data, pageSize, this.numberPage);
-        console.log(data);   
       }
       else if(error){
-        console.log('error -->'+error);   
+        this.error = error;   
     }
+    this.isLoading = false;
   }
 
   changePage(event){
+    this.isLoading = true;
     this.numberPage = event.detail;
     this.viewData = this.paginate(this.data, pageSize, this.numberPage);
   }

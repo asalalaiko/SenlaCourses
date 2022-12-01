@@ -7,13 +7,21 @@ export default class PropertyItem extends LightningElement {
     @api propertyName;
     @api propertyPrice;
     @api propertyImage;
+
     @wire(MessageContext)
+    
     messageContext;
+    error = null;
 
     handleClick(event) {
-        const payload = { 
-            propertyId: this.propertyId,
-        };
-        publish(this.messageContext, PROPERTY_DETAILS_CHANNEL, payload);
+        try {
+            const payload = { 
+                propertyId: this.propertyId,
+            };
+            publish(this.messageContext, PROPERTY_DETAILS_CHANNEL, payload);
+        } catch(error) {
+            this.error = error;
+        }
     }
+
 }
