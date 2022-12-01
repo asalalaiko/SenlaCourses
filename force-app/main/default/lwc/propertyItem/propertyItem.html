@@ -1,5 +1,8 @@
 <template>
-
+    <template if:true={error}>
+        <c-error-handler error={error}></c-error-handler>
+    </template>
+    <template if:true={propertyId}>
         <lightning-layout-item padding="around-small" size="4" small-device-size="4" medium-device-size="4">
             <div class="custom-box slds-box slds-p-around_medium slds-text-align_center" onclick={handleClick}>
             <img class="fit"
@@ -9,10 +12,10 @@
                     {propertyName}
                 </div>
                 <div class="slds-text-align_center">
-                    {propertyPrice}
+                    <lightning-formatted-number value={propertyPrice} format-style="currency" currency-code="USD"></lightning-formatted-number>
                 </div>
             </div>
             </lightning-layout-item>
-
+        </template>
 
 </template>
