@@ -1,6 +1,6 @@
 public with sharing class LogLWCController {
 
-    @AuraEnabled(cacheable=true)
+    @AuraEnabled(cacheable=false)
     public static LogLWC__c createLogLWC(String logObjectType, 
                                         String logActionType, 
                                         String logDescription, 
