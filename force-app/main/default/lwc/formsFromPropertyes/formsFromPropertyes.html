@@ -1,39 +1,39 @@
 <!-- sldsValidatorIgnore -->
 <template>
-    <lightning-card title="Enter data for Propertyes:">
-11
+    <lightning-card title="Enter data for Propertyes: 111">
         <template for:each={elements} for:item="element" for:index="index">
             <lightning-record-edit-form class="slds-p-around_small" 
                                         key={element.id} 
                                         object-api-name="Property__c"
-                                        field-names=""
                                         record-type-id={recordTypeId}>
-                <lightning-input-field field-name="Address__c"></lightning-input-field>
-                <lightning-input-field field-name="Selling_price__c"></lightning-input-field>
-                <lightning-input-field field-name="Rent_price__c"></lightning-input-field>
-                
-                <!-- <lightning-input-field disabled="true" field-name="Contact__c" value={recordId}></lightning-input-field> -->
-                <lightning-button-icon icon-name="utility:new"
-                                        variant="border-filled"
-                                        onclick={addRow}
-                                        alternative-text="Add row"
-                                        disabled={isAddButtonDisabled}>
-                 </lightning-button-icon>
-                 <lightning-button-icon icon-name="utility:close"
-                                        variant="border-filled"
-                                        onclick={deleteRow}
-                                        alternative-text="Delete row"
-                                        disabled={isDeleteButtonDisabled}>
-                 </lightning-button-icon>
+                <lightning-messages> </lightning-messages>
+                <lightning-layout multiple-rows>
+                    <lightning-input-field field-name="Address__c" variant="label-stacked" required></lightning-input-field>
+                    <lightning-input-field field-name="Selling_price__c" variant="label-stacked" required></lightning-input-field>
+                    <lightning-input-field field-name="Rent_price__c" variant="label-stacked" required></lightning-input-field>
+                    <lightning-input-field field-name="Contact__c" value={recordId} class="slds-hide"></lightning-input-field>
+                    <lightning-button-icon icon-name="utility:new"
+                                            variant="border-filled"
+                                            onclick={addRow}
+                                            alternative-text="Add row"
+                                            disabled={isAddButtonDisabled}>
+                    </lightning-button-icon>
+                    <lightning-button-icon icon-name="utility:close"
+                                            variant="border-filled"
+                                            onclick={deleteRow}
+                                            alternative-text="Delete row"
+                                            disabled={isDeleteButtonDisabled}>
+                    </lightning-button-icon>
+                </lightning-layout>
             </lightning-record-edit-form>
         </template>
         <lightning-layout>
             <lightning-layout-item class="slds-m-right_x-small">
-                <lightning-button variant="success" onclick={handleSubmit} label="Submit">
+                <lightning-button variant="success" onclick={handleSubmit} name="submit" label="Submit">
                 </lightning-button>
             </lightning-layout-item>
             <lightning-layout-item class="slds-m-right_x-small">
-                <lightning-button variant="destructive" onclick={handleCancel} label="Cancel">
+                <lightning-button variant="destructive" onclick={handleCancel} name="cancel" label="Cancel">
                 </lightning-button>
             </lightning-layout-item>
         </lightning-layout>
