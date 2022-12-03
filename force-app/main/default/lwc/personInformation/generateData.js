@@ -1,27 +1,19 @@
-function person(firstName, lastName, gender, birthday, email){
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.gender = gender;
-    this.birthday = birthday;
-    this.email = email;
-}
-
 
 export default function generateData() {
     return[
-        new person('Ivan', 'Ivanov', 'Male', '1994-10-1', 'iv@djhwvd.ru'),
-        new person('Petr', 'Ivanov', 'Male', '1985-2-10', 'pe@djhwvd.ru'),
-        new person('Jennifer', 'J. Martin', 'Female', '1994-9-1', 'beau_dubuqu1@yahoo.com'),
-        new person('Stanley', 'Jin', 'Male', '1958-11-21', 'don_ward2016@hotmail.com'),
-        new person('Vera', 'Maria', 'Female', '1934-1-21', 'gillian_colli@gmail.com'),
-        new person('Janet', 'Ankney', 'Female', '1975-4-11', 'major_erdma6@gmail.com'),
-        new person('Raquel', 'Morris', 'Female', '1988-2-14', 'eliseo.conn@gmail.com'),
-        new person('Eric', 'Whalen', 'Male', '1988-8-10', 'wyatt19911985@hotmail.com'),
-        new person('Clarence', 'Duffy', 'Male', '2002-10-31', 'gracie1980@gmail.com'),
-        new person('Barbara', 'Jackson', 'Female', '1983-4-19', 'corine1983@gmail.com'),
-        new person('Patricia', 'Dean', 'Female', '1986-3-21', 'theresia1979@yahoo.com'),
-        new person('John', 'Williams', 'Male', '1973-12-10', 'elyse2007@hotmail.com'),
-        new person('Bobby', 'Bolduc', 'Male', '2004-10-17', 'vladimir2017@hotmail.com'),
-        new person('Corrine', 'Larsen', 'Female', '1990-6-12', 'desiree1985@gmail.com'),
+        {firstName: 'Ivan', lastName: 'Ivanov', gender: 'Male', birthday:'1994-10-1', email: 'iv@djhwvd.ru'},
+        {firstName: 'Petr', lastName: 'Ivanov', gender: 'Male',birthday: '1985-2-10', email: 'pe@djhwvd.ru'},
+        {firstName: 'Jennifer', lastName: 'J. Martin', gender: 'Female', birthday: '1994-9-1', email: 'beau_dubuqu1@yahoo.com'},
+        {firstName: 'Stanley', lastName: 'Jin', gender: 'Male', birthday: '1958-11-21', email: 'don_ward2016@hotmail.com'},
+        {firstName: 'Vera', lastName: 'Maria',  gender:'Female',  birthday: '1934-1-21', email: 'gillian_colli@gmail.com'},
+        {firstName: 'Janet', lastName: 'Ankney', gender: 'Female',  birthday: '1975-4-11', email: 'major_erdma6@gmail.com'},
+        {firstName: 'Raquel', lastName: 'Morris',  gender:'Female',  birthday: '1988-2-14', email: 'eliseo.conn@gmail.com'},
+        {firstName: 'Eric', lastName: 'Whalen', gender: 'Male',  birthday: '1988-8-10', email: 'wyatt19911985@hotmail.com'},
+        {firstName: 'Clarence', lastName: 'Duffy', gender: 'Male',  birthday: '2002-10-31', email: 'gracie1980@gmail.com'},
+        {firstName: 'Barbara', lastName: 'Jackson', gender: 'Female',  birthday: '1983-4-19', email: 'corine1983@gmail.com'},
+        {firstName: 'Patricia', lastName: 'Dean', gender: 'Female',  birthday: '1986-3-21', email: 'theresia1979@yahoo.com'},
+        {firstName: 'John', lastName: 'Williams', gender: 'Male',  birthday: '1973-12-10', email: 'elyse2007@hotmail.com'},
+        {firstName: 'Bobby', lastName: 'Bolduc', gender: 'Male',   birthday:'2004-10-17', email: 'vladimir2017@hotmail.com'},
+        {firstName: 'Corrine', lastName: 'Larsen', gender: 'Female',  birthday: '1990-6-12', email: 'desiree1985@gmail.com'},
     ]
 }

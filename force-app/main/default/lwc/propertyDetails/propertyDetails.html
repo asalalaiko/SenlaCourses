@@ -1,0 +1,37 @@
+<template>
+    <template if:true={isLoading}>
+        <c-spinner></c-spinner>
+    </template>
+    <template if:true={error}>
+        <c-error-handler error={error} onerrorclosed={handleError}></c-error-handler>
+    </template>
+    <template if:true={recordId}>
+            <lightning-card>
+                <div class="custom-box slds-box slds-p-around_medium slds-text-align_center">
+                    <div class="slds-text-align_center ">
+                        {name}
+                    </div>
+                    <img class="fit"
+                        src={image}
+                        alt={propertyName}>
+                        <div class="slds-text-align_left">
+                            Selling price: {sellingPrice}
+                        </div>
+                        <div class="slds-text-align_left">
+                            Rent price: {rentPrice}
+                        </div>
+                        <div class="slds-text-align_left">
+                            Country: {country}
+                        </div>
+                        <div class="slds-text-align_left">
+                            City: {city}
+                        </div>
+                        <div class="slds-text-align_left">
+                            Address: {address}
+                        </div>
+                </div>
+                333
+                <lightning-button variant="brand" label="Test ERROR" title="Click me" onclick={doError} class="slds-m-left_x-small"></lightning-button>
+            </lightning-card>
+    </template>
+</template>
