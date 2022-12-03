@@ -1,10 +1,11 @@
 <apex:page>
     <apex:includeLightning />    
     <div id="LightningComponentid" />    
-    <script>
+    <script type="text/javascript">
+    var contactId = "{!$CurrentPage.parameters.id}"
     $Lightning.use("c:ContactDetailApp", function() {
-        $Lightning.createComponent("c:ContactDetail",
-          { 
+        $Lightning.createComponent("c:ContactDetails",
+          { "recordId" : contactId
           },
           "LightningComponentid",
           function(cmp) {
