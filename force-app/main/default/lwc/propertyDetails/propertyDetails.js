@@ -16,7 +16,7 @@ const fields = [PROPERTY_NAME, PROPERTY_IMAGE_URL, PROPERTY_SELLING_PRICE, PROPE
 export default class PropertyDetails extends LightningElement {
     subscription = null;
     recordId;
-    isLoading=false;
+    isLoading=true;
     error;
 
     @wire(getRecord, { recordId: '$recordId', fields })
@@ -25,7 +25,7 @@ export default class PropertyDetails extends LightningElement {
     messageContext;
 
     get name() {
-      
+        this.isLoading=false;
         return getFieldValue(this.property.data, PROPERTY_NAME);
       }
     
@@ -50,12 +50,10 @@ export default class PropertyDetails extends LightningElement {
       }
 
       get address() {
-        this.isLoading=false;
         return getFieldValue(this.property.data, PROPERTY_ADDRESS);
       }
 
     subscribeToMessageChannel() {
-      this.isLoading=true;
       try {
         this.subscription = subscribe(
             this.messageContext,
@@ -72,12 +70,14 @@ export default class PropertyDetails extends LightningElement {
     }
 
     connectedCallback() {
-        this.subscribeToMessageChannel();
-        console.log('---1>');
-        console.log(this.error);
-    
+      this.isLoading=true;
+      this.subscribeToMessageChannel();
     }
-      
+    
+    renderedCallback(){
+      this.isLoading=false;
+  }
+
     doError() {
       this.error = 'Whoops!';
  }

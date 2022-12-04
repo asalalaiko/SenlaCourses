@@ -1,10 +1,11 @@
 import { LightningElement, api } from 'lwc';
-
+import { PROPERTY_OBJECT} from 'c/utils';
 
 export default class PropertyCreation extends LightningElement {
+    @api recordId;
     checkedRecordTypeIds=[];
     isChoseRecordType = false;
-    objectName = 'Property__c';
+    objectName = PROPERTY_OBJECT;
     recordTypeId;
 
 

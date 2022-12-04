@@ -46,6 +46,8 @@ const navigateTo = (page, type, recordId, objectApiName, actionName) => {
 
 
 export{
+    PROPERTY_OBJECT,
+    CONTACT_OBJECT,
     PROPERTY_NAME,
     PROPERTY_SELLING_PRICE,
     PROPERTY_RENT_PRICE,
