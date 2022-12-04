@@ -35,6 +35,7 @@ export default class PropertyList extends LightningElement {
     this.isLoading = true;
     this.numberPage = event.detail;
     this.viewData = this.paginate(this.data, pageSize, this.numberPage);
+    this.isLoading = false;
   }
 
  

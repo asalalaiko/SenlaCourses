@@ -1,6 +1,8 @@
-import { LightningElement } from 'lwc';
+import { LightningElement, api } from 'lwc';
+import { PROPERTY_OBJECT} from 'c/utils';
 
 export default class PropertyCreationV2 extends LightningElement {
-    objectName = 'Property__c';
+    @api recordId;
+    objectName = PROPERTY_OBJECT;
 
 }

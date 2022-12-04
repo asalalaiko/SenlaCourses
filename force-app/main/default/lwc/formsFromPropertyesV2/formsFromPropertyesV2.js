@@ -1,8 +1,10 @@
 import { LightningElement, api, wire, track} from 'lwc';
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
 import createLogLWC from '@salesforce/apex/LogLWCController.createLogLWC';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class FormsFromPropertyesV2 extends LightningElement {
+    @api recordId;
     @api objectNameToGetRecordTypes;
     @track value=[];
     @track recordTypes =[];
@@ -83,7 +85,7 @@ export default class FormsFromPropertyesV2 extends LightningElement {
         
         if (isValidity) {
             try {
-                this.template.querySelectorAll('lightning-record-edit-form-create').forEach(element => {
+                this.template.querySelectorAll('lightning-record-edit-form').forEach(element => {
                     element.submit();
                 });
                 this.addLogLWC('Insert', descriptionLogLWC, true, '');

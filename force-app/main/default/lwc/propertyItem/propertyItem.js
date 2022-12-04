@@ -12,6 +12,15 @@ export default class PropertyItem extends LightningElement {
     
     messageContext;
     error = null;
+    isLoading;
+
+    connectedCallback(){
+        this.isLoading=true;
+    }
+    
+    renderedCallback(){
+        this.isLoading=false;
+    }
 
     handleClick(event) {
         try {

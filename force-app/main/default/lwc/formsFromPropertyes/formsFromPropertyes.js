@@ -1,5 +1,5 @@
 import { LightningElement, api, track } from 'lwc';
-
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class FieldsFromPropertyes extends LightningElement {
     @api recordId;
@@ -46,10 +46,9 @@ export default class FieldsFromPropertyes extends LightningElement {
         
         if (isValidity) {
             try {
-                this.template.querySelectorAll('lightning-record-edit-form-create').forEach(element => {
+                this.template.querySelectorAll('lightning-record-edit-form').forEach(element => {
                     element.submit();
                 });
-                console.log('---------->'+ element);
                 this.displaySuccess();
                 this.handleCancel();
             } catch(error) {
@@ -58,6 +57,7 @@ export default class FieldsFromPropertyes extends LightningElement {
         } 
     }
 
+   
     displaySuccess() {
         const toastEvent = new ShowToastEvent({
             title: "Property creation",
